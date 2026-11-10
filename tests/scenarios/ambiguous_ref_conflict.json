@@ -1,0 +1,19 @@
+{
+  "name": "ambiguous_ref_conflict",
+  "seed": 8,
+  "steps": [
+    {"op": "prepare_validated"},
+    {"op": "review_create"},
+    {"op": "approve", "id": "decision-1"},
+    {"op": "dispatch_paused", "barrier": "after_ref_cas"},
+    {"op": "kill"},
+    {"op": "external_ref_write", "to": "third"},
+    {"op": "reconcile"},
+    {"op": "assert", "oracle": "effect_state", "equals": "conflict"},
+    {"op": "assert", "oracle": "ref_is", "equals": "third"},
+    {"op": "assert", "oracle": "ref_mutation_count", "equals": 1},
+    {"op": "assert", "oracle": "cas_executions", "equals": 1},
+    {"op": "assert", "oracle": "work_next_action", "equals": "inspect_conflicting_target_no_automatic_rollback"},
+    {"op": "assert", "oracle": "all_obligations_accounted", "equals": true}
+  ]
+}
